@@ -2,6 +2,12 @@
 
 > Interactive educational client for the Open-Source Beginner Guide platform. Built with React 18, Vite, Tailwind CSS, Lucide Icons, and Recharts.
 
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel)](https://open-source-contribution-frontend-3enf-8kbp54lo5-sitaram4.vercel.app)
+[![Backend Status](https://img.shields.io/badge/Backend-Render-brightgreen?logo=render)](https://open-source-contribution-backend.onrender.com)
+
+- 🌐 **Live Frontend Application**: [https://open-source-contribution-frontend-3enf-8kbp54lo5-sitaram4.vercel.app](https://open-source-contribution-frontend-3enf-8kbp54lo5-sitaram4.vercel.app)
+- 🚀 **Connected Live Backend API**: [https://open-source-contribution-backend.onrender.com](https://open-source-contribution-backend.onrender.com)
+
 ---
 
 ## 🌟 Features Included
