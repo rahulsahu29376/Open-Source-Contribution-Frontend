@@ -1,11 +1,22 @@
 import axios from 'axios';
 
-const defaultApiUrl = (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')
-  ? 'https://open-source-contribution-backend.onrender.com/api'
-  : '/api';
+// Determine the correct API base URL
+const isLocal = typeof window !== 'undefined' && 
+  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '0.0.0.0');
 
-const rawBaseUrl = import.meta.env.VITE_API_BASE_URL || defaultApiUrl;
-const cleanBaseUrl = rawBaseUrl.replace(/\/+$/, '');
+// Live backend deployed on Render
+const LIVE_BACKEND_URL = 'https://open-source-contribution-backend.onrender.com/api';
+
+let selectedBaseUrl = '/api';
+if (typeof window !== 'undefined' && !isLocal) {
+  // If deployed (e.g. Vercel, Render), always target the live backend unless a custom HTTP URL was supplied
+  const envUrl = import.meta.env.VITE_API_BASE_URL;
+  selectedBaseUrl = (envUrl && envUrl.startsWith('http')) ? envUrl : LIVE_BACKEND_URL;
+} else {
+  selectedBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
+}
+
+const cleanBaseUrl = selectedBaseUrl.replace(/\/+$/, '');
 const normalizedBaseUrl = (cleanBaseUrl.startsWith('http') && !cleanBaseUrl.endsWith('/api'))
   ? `${cleanBaseUrl}/api`
   : cleanBaseUrl;
