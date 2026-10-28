@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const rawBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
+const defaultApiUrl = (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')
+  ? 'https://open-source-contribution-backend.onrender.com/api'
+  : '/api';
+
+const rawBaseUrl = import.meta.env.VITE_API_BASE_URL || defaultApiUrl;
 const cleanBaseUrl = rawBaseUrl.replace(/\/+$/, '');
 const normalizedBaseUrl = (cleanBaseUrl.startsWith('http') && !cleanBaseUrl.endsWith('/api'))
   ? `${cleanBaseUrl}/api`
