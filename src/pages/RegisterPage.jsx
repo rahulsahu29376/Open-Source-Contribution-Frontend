@@ -31,18 +31,28 @@ export const RegisterPage = () => {
         .map((s) => s.trim())
         .filter(Boolean);
 
+      const sanitizedGithub = formData.githubUsername.trim().replace(/^@/, '');
+
       await register({
-        fullName: formData.fullName,
-        email: formData.email,
+        fullName: formData.fullName.trim(),
+        email: formData.email.trim().toLowerCase(),
         password: formData.password,
-        githubUsername: formData.githubUsername || undefined,
+        githubUsername: sanitizedGithub || undefined,
         experienceLevel: formData.experienceLevel,
         preferredLanguages: langs,
       });
 
       navigate('/dashboard', { replace: true });
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed. Please check inputs.');
+      const serverMsg = err.response?.data?.message;
+      const validationDetails = err.response?.data?.error?.details;
+      let displayError = serverMsg;
+      if (!displayError && Array.isArray(validationDetails)) {
+        displayError = validationDetails.map((v) => v.message).join(' | ');
+      } else if (!displayError && typeof validationDetails === 'string') {
+        displayError = validationDetails;
+      }
+      setError(displayError || err.message || 'Registration failed. Please check inputs.');
     } finally {
       setLoading(false);
     }
